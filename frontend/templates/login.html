@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/pages.css">
+    <title>Вхід для адміністратора</title>
+</head>
+
+<body>
+    <div class="cursor-dot"></div>
+    <div class="cursor-follower"></div>
+    <main class="main" style="max-width: 500px; margin-top: 50px;">
+        <h2>Вхід в панель управління</h2>
+        <form id="login-form">
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Пароль" required>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Увійти</button>
+            <p id="error-message" style="color: red; text-align: center; margin-top: 10px;"></p>
+        </form>
+    </main>
+    <script src="../js/login.js"></script>
+</body>
+
+</html>

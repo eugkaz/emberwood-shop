@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/pages.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <title>Панель управління - Monoshop</title>
+</head>
+
+<body>
+    <div class="cursor-dot"></div>
+    <div class="cursor-follower"></div>
+    <header class="header">
+        <a href="/" class="logo"></a>
+        <h2>Панель управління</h2>
+        <button id="logout-btn" class="btn">Вийти</button>
+    </header>
+    <main class="main">
+        <section class="admin-section">
+            <h3>Управління товарами</h3>
+            <div class="admin-form-container">
+                <form id="product-form">
+                    <input type="hidden" id="product-id">
+                    <input type="text" id="product-name" placeholder="Назва товару" required>
+                    <input type="number" id="product-price" placeholder="Ціна" required step="0.01">
+                    <input type="text" id="product-image" placeholder="URL зображення" required>
+                    <label><input type="checkbox" id="product-popular"> Популярний товар</label>
+                    <button type="submit" class="btn btn-primary">Зберегти товар</button>
+                    <button type="button" id="clear-form-btn" class="btn">Очистити форму</button>
+                </form>
+            </div>
+            <div class="admin-table-container">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Назва</th>
+                            <th>Ціна</th>
+                            <th>Популярний</th>
+                            <th>Дії</th>
+                        </tr>
+                    </thead>
+                    <tbody id="products-table-body"></tbody>
+                </table>
+            </div>
+        </section>
+        <section class="admin-section">
+            <h3>Останні замовлення</h3>
+            <div class="admin-table-container">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Клієнт</th>
+                            <th>Email</th>
+                            <th>Сума</th>
+                            <th>Статус</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orders-table-body"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+    <script src="../js/admin.js"></script>
+</body>
+
+</html>

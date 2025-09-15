@@ -1,0 +1,303 @@
+/* =================================================================== */
+/*                     STYLES.CSS (FINAL VERSION)                      */
+/*            (Основа, головна сторінка та спільні елементи)           */
+/* =================================================================== */
+
+/* ======================================== */
+/* 0. ФІЛОСОФІЯ ДИЗАЙНУ                   */
+/* ======================================== */
+/*
+   СТИЛЬ: "WARM & TACTILE LUXURY"
+   - Глибока, тепла палітра, що нагадує про натуральні матеріали: темне дерево, шкіра, латунь.
+   - Акцент на тактильних відчуттях через м'яке світло, тіні та вишукані мікровзаємодії.
+   - Елегантна стриманість. Ніяких зайвих ефектів, тільки впевнена розкіш.
+   - Кожен продукт – це не товар, а артефакт.
+*/
+
+/* ======================================== */
+/* 1. ЗМІННІ І ГЛОБАЛЬНІ СТИЛІ             */
+/* ======================================== */
+
+:root {
+  /* Палітра кольорів "Luxury Brown" */
+  --color-background: #12100E;
+  --color-surface: #241F1C;
+  --color-surface-elevated: #3A322D;
+  --color-accent: #F5F0EB;
+  --color-accent-hover: #EAE2D9;
+  --color-accent-brown: #B18B67;
+  --color-accent-brown-soft: rgba(177, 139, 103, 0.1);
+  --color-accent-brown-darker: #9E7D61;
+  --color-border: rgba(245, 240, 235, 0.1);
+  --color-border-hover: rgba(245, 240, 235, 0.2);
+  --color-text-primary: var(--color-accent);
+  --color-text-secondary: #B8AF9F;
+  --color-text-muted: #81786A;
+  
+  /* Типографіка */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  
+  /* Тіні */
+  --shadow-sm: 0 1px 2px rgba(18, 16, 14, 0.2);
+  --shadow-md: 0 4px 12px rgba(18, 16, 14, 0.4);
+  --shadow-lg: 0 10px 30px rgba(18, 16, 14, 0.5);
+  --shadow-xl: 0 20px 50px rgba(18, 16, 14, 0.6);
+
+  /* Радіуси */
+  --radius-sm: 8px;
+  --radius: 18px;
+  --radius-lg: 24px;
+
+  /* Переходи */
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-elastic: 0.6s cubic-bezier(0.2, 1.2, 0.8, 1.2);
+}
+
+/* Скидання стилів і базові налаштування */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: var(--color-background);
+  font-family: var(--font-family);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  cursor: none;
+  font-size: 16px;
+  overflow-x: hidden;
+}
+
+/* Кастомний скролбар та виділення тексту */
+::selection { background-color: var(--color-accent-brown); color: var(--color-background); }
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--color-background); }
+::-webkit-scrollbar-thumb { background-color: var(--color-surface-elevated); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background-color: var(--color-accent-brown-darker); }
+
+
+/* ======================================== */
+/* 2. ЕЛЕГАНТНИЙ КУРСОР                     */
+/* ======================================== */
+
+.cursor-dot, .cursor-follower {
+  position: fixed; top: 0; left: 0; transform: translate(-50%, -50%);
+  border-radius: 50%; pointer-events: none; z-index: 9999;
+}
+.cursor-dot { width: 6px; height: 6px; background-color: var(--color-accent); transition: transform 0.15s linear; }
+.cursor-follower {
+  width: 32px; height: 32px; border: 1px solid var(--color-accent-brown);
+  transition: transform 0.3s cubic-bezier(0.2, 1, 0.8, 1), width var(--transition-smooth), 
+              height var(--transition-smooth), background-color var(--transition-smooth);
+}
+body.cursor-hover .cursor-dot { opacity: 0; transform: scale(0); }
+body.cursor-hover .cursor-follower {
+  width: 55px; height: 55px; background-color: var(--color-accent-brown-soft); border-color: transparent;
+}
+
+
+/* ======================================== */
+/* 3. СТРУКТУРА: ХЕДЕР, МЕЙН, ФУТЕР        */
+/* ======================================== */
+
+.header {
+  max-width: 1200px; margin: 0 auto; padding: 24px; border-bottom: 1px solid var(--color-border);
+  display: flex; justify-content: space-between; align-items: center; gap: 20px;
+  backdrop-filter: blur(16px) saturate(120%); -webkit-backdrop-filter: blur(16px) saturate(120%);
+  position: sticky; top: 0; z-index: 100; background-color: rgba(18, 16, 14, 0.7);
+}
+.logo {
+  background-image: url("../uploads/logo.svg");
+  background-color: var(--color-surface);
+  width: 60px;
+  height: 60px;
+  background-size: cover;
+  border-radius: 50%;
+  box-shadow: 0px 2px 2px 2px rgba(0, 0, 0, 0.088);
+  transition: 0.3s;
+  margin: 0; /* убираем auto, чтобы не центрировался */
+}
+.logo:hover { transform: scale(1.05); filter: brightness(1.1); }
+.navigation .menu { display: flex; gap: 8px; list-style: none; }
+.menu a {
+  color: var(--color-text-secondary); text-decoration: none; padding: 12px 18px;
+  border-radius: var(--radius-sm); position: relative; font-weight: 500;
+  transition: color var(--transition-fast);
+}
+.menu a::after {
+  content: ''; position: absolute; bottom: 8px; left: 18px; right: 18px; height: 1px;
+  background-color: var(--color-accent-brown); transform: scaleX(0); transform-origin: center;
+  transition: transform var(--transition-smooth);
+}
+.menu a:hover, .menu a:focus-visible { color: var(--color-text-primary); outline: none; }
+.menu a:hover::after { transform: scaleX(1); }
+.header-actions { display: flex; align-items: center; gap: 12px; }
+.action-btn {
+  position: relative; display: grid; place-content: center; width: 44px; height: 44px;
+  border-radius: 50%; color: var(--color-text-secondary); text-decoration: none;
+  transition: all var(--transition-fast);
+}
+.action-btn:hover, .action-btn:focus-visible {
+  background-color: var(--color-accent-brown-soft); color: var(--color-text-primary);
+  transform: scale(1.1); outline: none;
+}
+.cart-count {
+  position: absolute; top: 0; right: 0; background-color: var(--color-accent-brown);
+  color: var(--color-background); font-size: 10px; font-weight: 700; min-width: 18px;
+  height: 18px; border-radius: 50%; display: grid; place-content: center;
+  box-shadow: 0 0 0 2px var(--color-background);
+}
+
+.main {
+  max-width: 1200px; margin: 0 auto; padding: 0 24px;
+  display: flex; flex-direction: column;
+}
+
+.footer {
+  max-width: 1200px; margin: 80px auto 0; padding: 60px 24px 40px; border-top: 1px solid var(--color-border);
+}
+.footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-bottom: 40px; }
+.footer-column h4 { color: var(--color-text-primary); margin-bottom: 20px; font-weight: 600; }
+.footer-column a {
+  display: inline-block; color: var(--color-text-secondary); text-decoration: none;
+  margin-bottom: 12px; position: relative; padding: 4px 0;
+  transition: color var(--transition-smooth), transform var(--transition-smooth);
+}
+.footer-column a::after {
+  content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 1px;
+  background-color: var(--color-accent-brown); transition: width var(--transition-smooth);
+}
+.footer-column a:hover { color: var(--color-text-primary); transform: translateX(4px); }
+.footer-column a:hover::after { width: 100%; }
+.social-media a:hover { color: var(--color-text-primary); }
+.footer-bottom { text-align: center; font-size: 0.9rem; color: var(--color-text-muted); padding-top: 40px; border-top: 1px solid var(--color-border); }
+
+
+/* ======================================== */
+/* 4. HERO SECTION & BUTTONS                */
+/* ======================================== */
+
+.hero {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  min-height: 70vh; padding: 120px 0; text-align: center; overflow: hidden;
+}
+.hero-content h1 {
+  font-size: clamp(2.8rem, 6vw, 5rem); line-height: 1.1; font-weight: 800; letter-spacing: -0.03em;
+  max-width: 15ch; margin: 0 auto;
+  background: linear-gradient(145deg, var(--color-accent) 40%, var(--color-accent-brown) 100%);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  text-shadow: 0 4px 30px rgba(18, 16, 14, 0.6);
+  opacity: 0; animation: fadeInUp 1s 0.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+.hero-content p {
+  font-size: 1.25rem; max-width: 45ch; color: var(--color-text-secondary);
+  margin: 32px auto 0;
+  opacity: 0; animation: fadeInUp 1s 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+.hero-content .btn {
+  opacity: 0; animation: fadeInUp 1s 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.btn {
+  display: inline-block; font-size: 1rem; font-weight: 600; padding: 16px 40px;
+  border-radius: var(--radius-sm); border: 1px solid var(--color-accent-brown-darker);
+  cursor: pointer; transition: all var(--transition-smooth); user-select: none; text-decoration: none;
+  background-color: var(--color-accent-brown); color: var(--color-background);
+  margin-top: 32px; position: relative; overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1);
+}
+.btn:hover, .btn:focus-visible {
+  background-color: var(--color-accent-brown); border-color: var(--color-accent);
+  transform: translateY(-3px) scale(1.05); box-shadow: var(--shadow-lg); color: var(--color-accent);
+  outline: none; filter: brightness(1.15);
+}
+
+/* ======================================== */
+/* 5. КАРТКИ ТОВАРІВ                       */
+/* ======================================== */
+
+.products-section { padding: 100px 0; }
+.products-section h2 { font-size: 2.5rem; text-align: center; margin-bottom: 60px; color: var(--color-text-primary); }
+.product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 36px; perspective: 1500px; }
+.product-card {
+  position: relative; display: flex; flex-direction: column; background: var(--color-surface);
+  border: 1px solid var(--color-border); border-radius: var(--radius-lg); overflow: hidden;
+  cursor: pointer; transform-style: preserve-3d; will-change: transform, box-shadow;
+  transition: transform 0.5s var(--transition-elastic), box-shadow 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), 
+              border-color var(--transition-smooth), background var(--transition-smooth);
+}
+.product-card::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(circle at 50% 0%, var(--color-accent-brown-soft), transparent 70%);
+  border-radius: inherit; opacity: 0; transition: opacity 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  z-index: 2; pointer-events: none;
+}
+.product-card:hover {
+  transform: translateY(-12px) scale(1.03) perspective(1000px); border-color: var(--color-border-hover);
+  background: var(--color-surface-elevated); box-shadow: var(--shadow-xl);
+}
+.product-card:hover::before { opacity: 1; }
+.product-card a { text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%; }
+.product-card-image-wrapper { width: 100%; aspect-ratio: 4/3; overflow: hidden; flex-shrink: 0; }
+.product-card-image {
+  width: 100%; height: 100%; object-fit: cover; display: block; transform: translateZ(20px);
+  will-change: transform; transition: transform 0.5s var(--transition-elastic);
+}
+.product-card:hover .product-card-image { transform: translateZ(40px) scale(1.1); }
+.product-card-info {
+  padding: 24px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;
+  transform: translateZ(10px); z-index: 3;
+}
+.product-card-title {
+  font-size: 1.25rem; font-weight: 600; color: var(--color-text-primary);
+  margin-bottom: 8px; line-height: 1.4; transition: color var(--transition-smooth);
+}
+.product-card:hover .product-card-title { color: var(--color-accent-brown); }
+.product-card-price {
+  font-size: 1.125rem; color: var(--color-text-secondary); font-weight: 500; transition: color var(--transition-smooth);
+}
+.product-card:hover .product-card-price { color: var(--color-text-primary); }
+
+
+/* ======================================== */
+/* 6. АДАПТИВНІСТЬ                         */
+/* ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  .cursor-dot, .cursor-follower { display: none; }
+  body { cursor: auto; }
+}
+@media (max-width: 768px) {
+  .header { flex-direction: column; gap: 20px; position: static; backdrop-filter: none; background-color: var(--color-background); }
+  .product-grid { perspective: none; }
+  .product-card:hover { transform: translateY(-6px); }
+  .hero { min-height: auto; padding: 80px 0; }
+  .hero-content h1 { font-size: 2.5rem; }
+  .products-section { padding-top: 60px; padding-bottom: 60px; }
+}
+@media (max-width: 600px) {
+  .product-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+  body { cursor: auto; }
+  .cursor-dot, .cursor-follower { display: none; }
+  .main { padding: 0 16px; }
+  .footer { padding-left: 16px; padding-right: 16px; }
+}
+
+/* ======================================== */
+/* 7. ДОДАТКОВІ УТИЛІТИ                    */
+/* ======================================== */
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
